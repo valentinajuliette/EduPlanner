@@ -1,0 +1,55 @@
+<!-- DESCRIPCIÓN DEL PROYECTO:
+            Refugio Dhermes es una fundación que trabaja hace 19 años por la misión
+resguardar a EventoAcademicos abandonados y vulnerables que buscan un hogar. Actualmente todos sus procesos de gestión
+se realizan de manera análoga, principalmente la visibilización de los EventoAcademicos del refugio que buscan un hogar.
+Actualmente ese proceso se realiza mediante publicaciones periódicas en instagram, lo que no permite una
+visibilización equitativa de todos los EventoAcademicos ni de detalles importantes sobre ellos (como su edad, tamaño, o
+personalidad). Además, los links para realizar donaciones seguras al refugio o postular al voluntariado, son de
+difícil acceso y mantienen una fragmentación de la información al no tener un único punto que congregue todo.
+
+Esta página web la creé como prototipo propuesta para el ramo de Responsabilidad Social Empresarial❤
+
+--Valentina Muñoz Rabanal.
+
+ESTRUCTURA DE LA WEB:
+    1.1. Página Principal: Con una breve descripción del refugio, un menú de navegación y link a las secciones
+    destacadas.   -->
+
+{% extends 'base.html' %}
+
+{% block title %}EduPlanner - Página Principal{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<!-- Main Content -->
+<div class="container-fluid">
+<div class="container">
+    <div class="row margin-left margin-right">
+        <div class="col-7">
+            <br>
+            <h1>Gestiona tu calendario académico con los mejores: <span style="color: #886DCC;">EduPlanner</span></h1>
+            <p><br><strong>EduPlanner</strong> se enfoca en ayudar a instituciones educativas y estudiantes a planificar 
+                y gestionar sus actividades académicas y personales. La aplicación se alimenta de
+                una API de terceros para obtener información sobre los feriados de Chile y cuenta con un sistema web que
+                permite a los distintos actores del sistema educativo (como administradores académicos, docentes y
+                personal de servicios estudiantiles) publicar actividades importantes. Estas actividades pueden incluir
+                períodos académicos, fechas de exámenes, plazos para solicitudes y gestión de beneficios, entre otros.
+                <br><br>Con EduPlanner, <strong>el tiempo es todo tuyo ❤</strong></p>
+            <div class="row text-center">
+                <a href="register" class="btn btn-dark">Únete y empieza a gestionar tu calendario HOY</a>
+            </div>
+        </div>
+        <div class="col-1"><br></div>
+        <div class="col">
+            <!-- Causes Section -->
+            <div class="row justify-content-center mt-4">
+                <img src="{% static 'img/imagen_principal.jpg' %}" alt="Imagen de dos personas mirando un computador" class="img-fluid">
+                <br><br>
+            </div>
+        </div>
+        <div><br><br></div>
+    </div>
+</div>
+</div>
+{% endblock %}
