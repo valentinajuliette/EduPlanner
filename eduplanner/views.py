@@ -52,7 +52,7 @@ class CalendarioAPIView(APIView):
         eventos_data = serializer.data
 
         # Configuración de la solicitud a la API de feriados
-        url_feriados = "https://apis.digital.gob.cl/fl/feriados"
+        url_feriados = "https://apis.digital.gob.cl/fl/feriados/2024"
         headers = {
             'User-Agent': 'DjangoApp (https://example.com)'  # Cambia la URL si tienes una
         }

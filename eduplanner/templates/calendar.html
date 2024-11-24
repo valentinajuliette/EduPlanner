@@ -1,15 +1,67 @@
-<!-- calendar.html -->
 {% extends 'base.html' %}
 
 {% block title %} Calendario {% endblock %}
 
 {% block content %}
-    <h1> Calendario </h1>
+<div class="container">
+    <p><br></p>
+    <div class="row">
+        <div class="col">
+            <h1 class="justify-content-right">Calendario Académico</h1>
+        </div>
+        <div class="col-3 justify-content-right">
+            <a href="{% url 'agregar_evento' %}" class="btn" style="background-color: #D8A7CA;">Agregar evento</a>
+        </div>
+    </div>
+    <p><br></p>
+    <div id="calendar"></div> <!-- Este div debe estar vacío -->
+</div>
 
-    <ul>
-        {% for eventos in eventos %}
-            <li>{{ eventos }}</li>
-        {% endfor %}
-    </ul>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const calendarEl = document.getElementById('calendar');
+
+        // Crear instancia de FullCalendar
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'es', // Español
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: function (fetchInfo, successCallback, failureCallback) {
+                fetch('/api/calendario/')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Mapear los campos de la API al formato esperado por FullCalendar
+                        const events = data.map(event => ({
+                            title: event.titulo,       // Mapea "titulo" a "title"
+                            start: event.fecha_inicio, // Mapea "fecha_inicio" a "start"
+                            end: event.fecha_fin,      // Mapea "fecha_fin" a "end"
+                            description: event.descripcion // Descripción opcional
+                        }));
+                        successCallback(events); // Pasar eventos formateados al calendario
+                    })
+                    .catch(error => {
+                        console.error("Error al cargar eventos:", error);
+                        failureCallback(error);
+                    });
+            },
+            eventDidMount: function (info) {
+                // Activa el tooltip de Bootstrap para cada evento
+                const tooltip = new bootstrap.Tooltip(info.el, {
+                    title: `${info.event.title}<br>${info.event.extendedProps.description || ''}`, // Título y descripción
+                    placement: 'top', // Posición del tooltip
+                    trigger: 'hover', // Mostrar al pasar el cursor
+                    container: 'body', // Renderizar dentro del body para evitar problemas de estilo
+                    html: true // Permitir HTML en el tooltip
+                });
+            }
+        });
+
+        calendar.render();
+    });
+</script>
 
 {% endblock %}
