@@ -25,7 +25,7 @@ from api import urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',pag_principal, name='pag_principal'),
-    path('api/calendario/', FeriadosAPIView.as_view(), name='calendario'),
+    path('api/feriados/', FeriadosAPIView.as_view(), name='calendario'),
     path('registro/', views.registro, name='registro'),
     path('login/', views.iniciar_sesion, name='login'),
     path('logout/', views.cerrar_sesion, name='cerrar_sesion'),
