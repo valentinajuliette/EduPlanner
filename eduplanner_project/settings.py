@@ -38,8 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'eduplanner',
+    # Django Rest Framework
     'rest_framework',
+    'requests',
+    # Apps
+    'eduplanner',
+    'Calendar',
 ]
 
 MIDDLEWARE = [

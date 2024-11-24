@@ -1,0 +1,15 @@
+<!-- calendar.html -->
+{% extends 'base.html' %}
+
+{% block title %} Calendario {% endblock %}
+
+{% block content %}
+    <h1> Calendario </h1>
+
+    <ul>
+        {% for eventos in eventos %}
+            <li>{{ eventos }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
