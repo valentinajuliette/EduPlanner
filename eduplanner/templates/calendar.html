@@ -3,16 +3,9 @@
 {% block title %} Calendario {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container text-center">
     <p><br></p>
-    <div class="row">
-        <div class="col">
-            <h1 class="justify-content-right">Calendario Académico</h1>
-        </div>
-        <div class="col-3 justify-content-right">
-            <a href="{% url 'agregar_evento' %}" class="btn" style="background-color: #D8A7CA;">Agregar evento</a>
-        </div>
-    </div>
+    <h1>Calendario Académico</h1>
     <p><br></p>
     <div id="calendar"></div> <!-- Este div debe estar vacío -->
 </div>

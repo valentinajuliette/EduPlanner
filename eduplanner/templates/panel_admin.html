@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Panel de Administración{% endblock %}
+
+{% block content %}
+<div class="container">
+    <br>
+    <h1 class="text-center">Panel de Administración</h1>
+    <a href="{% url 'agregar_evento' %}" class="btn btn-success mb-3">Agregar Nuevo Evento</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Fin</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evento in eventos %}
+            <tr>
+                <td>{{ evento.id }}</td>
+                <td>{{ evento.titulo }}</td>
+                <td>{{ evento.descripcion }}</td>
+                <td>{{ evento.fecha_inicio }}</td>
+                <td>{{ evento.fecha_fin }}</td>
+                <td>
+                    <a href="{% url 'editar_evento' evento.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'eliminar_evento' evento.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

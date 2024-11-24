@@ -23,17 +23,23 @@ entre todas las páginas. -->
             </a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'pag_principal' %}">Página Principal</a>
-                    </li>
                     {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'calendar' %}">Calendario</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'panel_admin' %}">Panel de administración</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a>
                         </li>
                     {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'registro' %}">Regístrate</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'pag_principal' %}">Página Principal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'registro' %}">Regístrate</a>
+                        </li>
                         <li class="nav-item">
                             <a class="btn btn-dark" href="{% url 'login' %}">Inicia Sesión</a>
                         </li>
