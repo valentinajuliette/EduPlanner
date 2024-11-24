@@ -7,10 +7,6 @@ from django.contrib.auth import login, authenticate, logout
 from .forms import RegistroForm
 from django.contrib import messages
 
-def pag_principal(request):
-    EventoAcademicos = EventoAcademico.objects.all()  # Obtener todos los EventoAcademicos
-    return render(request, 'pag_principal.html', {'EventoAcademicos': EventoAcademicos})
-
 def registro(request):
     if request.method == 'POST':
         form = RegistroForm(request.POST)
