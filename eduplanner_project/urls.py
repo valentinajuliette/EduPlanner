@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from eduplanner import views
+from Calendar.views import calendar_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('registro/', views.registro, name='registro'),
     path('login/', views.iniciar_sesion, name='login'),
     path('logout/', views.cerrar_sesion, name='cerrar_sesion'),
+    path('calendar/',calendar_view,name='calendar' )
 ]
 
 # Solo para desarrollo. Esto permite que el servidor de Django sirva archivos estáticos (como imágenes).
