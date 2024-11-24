@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import EventosAcademicos
+from .models import EventoAcademico, Eventos, Feriados
 
-# Register your models here.
-admin.site.register(EventosAcademicos)
+admin.site.register(EventoAcademico)
+admin.site.register(Eventos)
+admin.site.register(Feriados)
