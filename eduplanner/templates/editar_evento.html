@@ -18,11 +18,11 @@
         </div>
         <div class="mb-3">
             <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
-            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="{{ evento.fecha_inicio }}" required>
+            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="{{ evento.fecha_inicio|date:'Y-m-d' }}" required>
         </div>
         <div class="mb-3">
             <label for="fecha_fin" class="form-label">Fecha de Fin</label>
-            <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="{{ evento.fecha_fin }}">
+            <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="{{ evento.fecha_fin|date:'Y-m-d' }}">
         </div>
         <div class="mb-3">
             <label for="tipo" class="form-label">Tipo de Evento</label>
