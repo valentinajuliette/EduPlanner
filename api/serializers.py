@@ -7,4 +7,3 @@ class EventoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = EventosAcademicos
         fields = '__all__'
-        #fields = ['nombre','duracion']
