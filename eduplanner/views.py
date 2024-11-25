@@ -103,8 +103,10 @@ def agregar_evento(request):
             fecha_inicio = request.POST.get('fecha_inicio')
             fecha_fin = request.POST.get('fecha_fin')
             tipo = 6 #tipo = request.POST.get('tipo')
-            
+            confidencial = bool(request.POST.get('confindencial'))
+
             if fecha_inicio > fecha_fin:
+                #Raise 
                 return render(request, 'agregar_evento.html')
             else:
                 # Crear el nuevo evento
@@ -113,7 +115,8 @@ def agregar_evento(request):
                     descripcion=descripcion,
                     fecha_inicio=fecha_inicio,
                     fecha_fin=fecha_fin,
-                    tipo=tipo
+                    tipo=tipo,
+                    confidencial=confidencial,
                 )
                 nuevo_evento.save()
 
@@ -145,6 +148,7 @@ def editar_evento(request, evento_id):
             evento.fecha_inicio = request.POST.get('fecha_inicio')
             evento.fecha_fin = request.POST.get('fecha_fin')
             evento.tipo = request.POST.get('tipo')
+            evento.confidencial = 'confidencial' in request.POST
             if evento.fecha_inicio > evento.fecha_fin:
                 #Raise Error
                 return render(request, 'editar_evento.html', {'evento': evento})

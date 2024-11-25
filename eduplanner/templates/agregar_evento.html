@@ -24,6 +24,23 @@
             <label for="fecha_fin" class="form-label">Fecha de Fin</label>
             <input type="date" class="form-control" id="fecha_fin" name="fecha_fin">
         </div>
+        
+        {% comment %}
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo de Evento</label>
+            <select class="form-control" id="tipo" name="tipo" required>
+                {% for clave, valor in lista_tipos.items %}
+                    <option value="{{ clave }}">{{ valor }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% endcomment %}
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="confidencial" name="confidencial">
+            <label class="form-check-label" for="confidencial">Confidencial</label>
+        </div>
+
         <button type="submit" class="btn btn-dark">Guardar Evento</button>
         <a href="{% url 'panel_admin' %}" class="btn btn-secondary">Cancelar</a>
     </form>

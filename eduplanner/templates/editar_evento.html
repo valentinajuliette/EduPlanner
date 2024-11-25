@@ -32,6 +32,11 @@
                 {% endfor %}
             </select>
         </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="confidencial" name="confidencial" 
+                {% if evento.confidencial %}checked{% endif %}>
+            <label for="confidencial" class="form-check-label">Confidencial</label>
+        </div>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         <a href="{% url 'panel_admin' %}" class="btn btn-secondary">Cancelar</a>
     </form>

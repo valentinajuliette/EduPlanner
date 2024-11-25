@@ -32,6 +32,8 @@ class EventosAcademicos(models.Model):
 
     tipo =  models.CharField(max_length=3, choices=lista_tipos)
 
+    confidencial = models.BooleanField(default=False)
+
     def __str__(self):
         return self.titulo
 

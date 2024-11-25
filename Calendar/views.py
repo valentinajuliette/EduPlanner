@@ -7,7 +7,7 @@ import requests
 
 def calendar_view(request):
     # Obtener eventos académicos desde la base de datos
-    eventos = EventosAcademicos.objects.all()
+    eventos = EventosAcademicos.objects.filter(confidencial=False)
     eventos_list = [
         {
             "title": evento.titulo,
