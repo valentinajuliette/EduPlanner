@@ -104,18 +104,21 @@ def agregar_evento(request):
             fecha_fin = request.POST.get('fecha_fin')
             tipo = 6 #tipo = request.POST.get('tipo')
             
-            # Crear el nuevo evento
-            nuevo_evento = EventosAcademicos(
-                titulo=titulo,
-                descripcion=descripcion,
-                fecha_inicio=fecha_inicio,
-                fecha_fin=fecha_fin,
-                tipo=tipo
-            )
-            nuevo_evento.save()
+            if fecha_inicio > fecha_fin:
+                return render(request, 'agregar_evento.html')
+            else:
+                # Crear el nuevo evento
+                nuevo_evento = EventosAcademicos(
+                    titulo=titulo,
+                    descripcion=descripcion,
+                    fecha_inicio=fecha_inicio,
+                    fecha_fin=fecha_fin,
+                    tipo=tipo
+                )
+                nuevo_evento.save()
 
-            # Redirigir al panel
-            return redirect('panel_admin')
+                # Redirigir al panel
+                return redirect('panel_admin')
 
         # Renderizar la página del formulario
         return render(request, 'agregar_evento.html')
@@ -142,7 +145,11 @@ def editar_evento(request, evento_id):
             evento.fecha_inicio = request.POST.get('fecha_inicio')
             evento.fecha_fin = request.POST.get('fecha_fin')
             evento.tipo = request.POST.get('tipo')
-            evento.save()
+            if evento.fecha_inicio > evento.fecha_fin:
+                #Raise Error
+                return render(request, 'editar_evento.html', {'evento': evento})
+            else:
+                evento.save()
             return redirect('panel_admin')
         return render(request, 'editar_evento.html', {'evento': evento})
     else:
