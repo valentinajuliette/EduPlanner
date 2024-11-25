@@ -24,6 +24,14 @@
             <label for="fecha_fin" class="form-label">Fecha de Fin</label>
             <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="{{ evento.fecha_fin }}">
         </div>
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo de Evento</label>
+            <select class="form-control" id="tipo" name="tipo" required>
+                {% for clave, valor in evento.lista_tipos.items %}
+                    <option value="{{ clave }}" {% if evento.tipo == clave %}selected{% endif%}>{{ valor }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         <a href="{% url 'panel_admin' %}" class="btn btn-secondary">Cancelar</a>
     </form>

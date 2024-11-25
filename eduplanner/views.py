@@ -51,7 +51,7 @@ def cerrar_sesion(request):
     logout(request)
     return redirect('login')
 
-class CalendarioAPIView(APIView):
+class CalendarioAPIView(APIView): 
     def get(self, request):
         # Obtener eventos académicos desde la base de datos
         eventos = EventosAcademicos.objects.all()
@@ -76,7 +76,8 @@ class CalendarioAPIView(APIView):
                     "titulo": feriado.get("nombre"),
                     "descripcion": "Feriado oficial",
                     "fecha_inicio": feriado.get("fecha"),
-                    "fecha_fin": feriado.get("fecha")
+                    "fecha_fin": feriado.get("fecha"),
+                    "tipo": 6 # Default value for feriados (6. Feriado Nacional)
                 }
                 for feriado in feriados_data
             ]
@@ -92,6 +93,7 @@ class CalendarioAPIView(APIView):
 
         return Response(calendario_ordenado, status=status.HTTP_200_OK)
 
+@login_required
 def agregar_evento(request):
     if request.user.groups.filter(name='Académicos').exists() or request.user.groups.filter(name='Comité Académico').exists():
         if request.method == 'POST':
@@ -100,14 +102,15 @@ def agregar_evento(request):
             descripcion = request.POST.get('descripcion')
             fecha_inicio = request.POST.get('fecha_inicio')
             fecha_fin = request.POST.get('fecha_fin')
-
+            tipo = 6 #tipo = request.POST.get('tipo')
+            
             # Crear el nuevo evento
             nuevo_evento = EventosAcademicos(
                 titulo=titulo,
                 descripcion=descripcion,
                 fecha_inicio=fecha_inicio,
                 fecha_fin=fecha_fin,
-                tipo=6
+                tipo=tipo
             )
             nuevo_evento.save()
 
@@ -138,6 +141,7 @@ def editar_evento(request, evento_id):
             evento.descripcion = request.POST.get('descripcion')
             evento.fecha_inicio = request.POST.get('fecha_inicio')
             evento.fecha_fin = request.POST.get('fecha_fin')
+            evento.tipo = request.POST.get('tipo')
             evento.save()
             return redirect('panel_admin')
         return render(request, 'editar_evento.html', {'evento': evento})
