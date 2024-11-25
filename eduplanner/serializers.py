@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import EventoAcademico
+from Calendar.models import EventosAcademicos
 
 class EventoAcademicoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = EventoAcademico
+        model = EventosAcademicos
         fields = '__all__'

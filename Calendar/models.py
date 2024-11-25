@@ -12,7 +12,7 @@ class EventosAcademicos(models.Model):
         "3": "Inicio de Inscripción de Asignaturas",
         "4": "Fin de Inscripción de Asignaturas",
         "5": "Receso Académico",
-        "6": "Feriado Nacional",
+        "6": "Feriado Nacional", # Default 4 Feriados
         "7": "Feriado Regional",
         "8": "Inicio de Plazos de Solicitudes Administrativas",
         "9": "Fin de Plazos de Solicitudes Administrativas",

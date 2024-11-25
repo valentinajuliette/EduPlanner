@@ -5,13 +5,13 @@ from rest_framework import status
 from .serializers import EventoAcademicoSerializer
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from .models import EventoAcademico
+from Calendar.views import EventosAcademicos
 from .forms import RegistroForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 def pag_principal(request):
-    EventoAcademicos = EventoAcademico.objects.all()  # Obtener todos los EventoAcademicos
+    EventoAcademicos = EventosAcademicos.objects.all()  # Obtener todos los EventoAcademicos
     return render(request, 'pag_principal.html', {'EventoAcademicos': EventoAcademicos})
 
 def registro(request):
@@ -54,7 +54,7 @@ def cerrar_sesion(request):
 class CalendarioAPIView(APIView):
     def get(self, request):
         # Obtener eventos académicos desde la base de datos
-        eventos = EventoAcademico.objects.all()
+        eventos = EventosAcademicos.objects.all()
         serializer = EventoAcademicoSerializer(eventos, many=True)
         eventos_data = serializer.data
 
@@ -102,11 +102,12 @@ def agregar_evento(request):
             fecha_fin = request.POST.get('fecha_fin')
 
             # Crear el nuevo evento
-            nuevo_evento = EventoAcademico(
+            nuevo_evento = EventosAcademicos(
                 titulo=titulo,
                 descripcion=descripcion,
                 fecha_inicio=fecha_inicio,
-                fecha_fin=fecha_fin
+                fecha_fin=fecha_fin,
+                tipo=6
             )
             nuevo_evento.save()
 
@@ -122,7 +123,7 @@ def agregar_evento(request):
 def panel_admin(request):
     # Obtener todos los eventos
     if request.user.groups.filter(name='Académicos').exists() or request.user.groups.filter(name='Comité Académico').exists():
-        eventos = EventoAcademico.objects.all()
+        eventos = EventosAcademicos.objects.all()
         return render(request, 'panel_admin.html', {'eventos': eventos})
     else:
         return redirect('pag_principal')
@@ -131,7 +132,7 @@ def panel_admin(request):
 def editar_evento(request, evento_id):
     # Obtener el evento a editar
     if request.user.groups.filter(name='Académicos').exists() or request.user.groups.filter(name='Comité Académico').exists():
-        evento = get_object_or_404(EventoAcademico, id=evento_id)
+        evento = get_object_or_404(EventosAcademicos, id=evento_id)
         if request.method == 'POST':
             evento.titulo = request.POST.get('titulo')
             evento.descripcion = request.POST.get('descripcion')
@@ -147,7 +148,7 @@ def editar_evento(request, evento_id):
 def eliminar_evento(request, evento_id):
     if request.user.groups.filter(name='Académicos').exists() or request.user.groups.filter(name='Comité Académico').exists():
         # Obtener el evento y eliminarlo
-        evento = get_object_or_404(EventoAcademico, id=evento_id)
+        evento = get_object_or_404(EventosAcademicos, id=evento_id)
         if request.method == 'POST':
             evento.delete()
             return redirect('panel_admin')
