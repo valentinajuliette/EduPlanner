@@ -10,11 +10,6 @@ from .forms import RegistroForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-
-def lista_EventoAcademicos(request):
-    EventoAcademicos = EventoAcademico.objects.all()
-    return render(request, 'lista_EventoAcademicos.html', {'EventoAcademicos': EventoAcademicos})
-
 def pag_principal(request):
     EventoAcademicos = EventoAcademico.objects.all()  # Obtener todos los EventoAcademicos
     return render(request, 'pag_principal.html', {'EventoAcademicos': EventoAcademicos})
@@ -96,7 +91,7 @@ class CalendarioAPIView(APIView):
         calendario_ordenado = sorted(calendario, key=lambda x: x['fecha_inicio'])
 
         return Response(calendario_ordenado, status=status.HTTP_200_OK)
-    
+
 def agregar_evento(request):
     if request.user.groups.filter(name='Académicos').exists() or request.user.groups.filter(name='Comité Académico').exists():
         if request.method == 'POST':

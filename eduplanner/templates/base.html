@@ -27,9 +27,11 @@ entre todas las páginas. -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'calendar' %}">Calendario</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'panel_admin' %}">Panel de administración</a>
-                        </li>
+                        {% if autorizacion %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'panel_admin' %}">Panel de administración</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a>
                         </li>
