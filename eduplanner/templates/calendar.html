@@ -13,6 +13,9 @@
     document.addEventListener('DOMContentLoaded', function () {
         const calendarEl = document.getElementById('calendar');
 
+        // Verificar si el usuario tiene autorización para ver eventos confidenciales
+        const tieneAutorizacion = {{ autorizacion|yesno:"true,false" }};
+
         // Crear instancia de FullCalendar
         const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
@@ -26,14 +29,16 @@
                 fetch('/api/calendario/')
                     .then(response => response.json())
                     .then(data => {
-                        // Mapear los campos de la API al formato esperado por FullCalendar
-                        const events = data.map(event => ({
-                            title: event.titulo,       // Mapea "titulo" a "title"
-                            start: event.fecha_inicio, // Mapea "fecha_inicio" a "start"
-                            end: event.fecha_fin,      // Mapea "fecha_fin" a "end"
-                            description: event.descripcion // Descripción opcional
-                        }));
-                        successCallback(events); // Pasar eventos formateados al calendario
+                        // Filtrar eventos confidenciales si el usuario no tiene autorización
+                        const events = data
+                            .filter(event => tieneAutorizacion || !event.confidencial) // Mostrar solo confidenciales si autorizado
+                            .map(event => ({
+                                title: event.titulo,       // Mapea "titulo" a "title"
+                                start: event.fecha_inicio, // Mapea "fecha_inicio" a "start"
+                                end: event.fecha_fin,      // Mapea "fecha_fin" a "end"
+                                description: event.descripcion, // Descripción opcional
+                            }));
+                        successCallback(events); // Pasar eventos al calendario
                     })
                     .catch(error => {
                         console.error("Error al cargar eventos:", error);

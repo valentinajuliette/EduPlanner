@@ -14,7 +14,8 @@ def calendar_view(request):
             "start": evento.fecha_inicio.strftime('%Y-%m-%d'),
             "end": evento.fecha_fin.strftime('%Y-%m-%d') if evento.fecha_fin else evento.fecha_inicio.strftime('%Y-%m-%d'),
             "description": evento.descripcion,
-            "type": "Evento Académico",
+            "type": evento.tipo,
+            "confidencial": evento.confidencial,  # Incluye si el evento es confidencial
         }
         for evento in eventos
     ]
@@ -33,6 +34,7 @@ def calendar_view(request):
                 "end": feriado.get("fecha"),
                 "description": "Feriado oficial",
                 "type": "Feriado",
+                "confidencial": False,  # Incluye si el evento es confidencial
             }
             for feriado in feriados_data
         ]

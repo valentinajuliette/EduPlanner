@@ -26,6 +26,9 @@ def registro(request):
                 form.save()
                 messages.success(request, 'Registro exitoso. Ahora puedes iniciar sesión.')
                 return redirect('login')
+            else:
+                messages.error(request, 'Error al registrar.')
+                return render(request, 'registro.html', {'form': form})
         else:
             form = RegistroForm()
         return render(request, 'registro.html', {'form': form})
@@ -96,18 +99,19 @@ class CalendarioAPIView(APIView):
 @login_required
 def agregar_evento(request):
     if request.user.groups.filter(name='Académicos').exists() or request.user.groups.filter(name='Comité Académico').exists():
+        lista_tipos = dict(EventosAcademicos.LISTA_TIPOS)  # Convertirlo a un diccionario en caso de que sea un objeto especial
+
         if request.method == 'POST':
-            # Recibir datos del formulario
-            titulo = request.POST.get('titulo')
-            descripcion = request.POST.get('descripcion')
-            fecha_inicio = request.POST.get('fecha_inicio')
-            fecha_fin = request.POST.get('fecha_fin')
-            tipo = 6 #tipo = request.POST.get('tipo')
-            confidencial = bool(request.POST.get('confindencial'))
+            titulo = request.POST['titulo']
+            descripcion = request.POST.get('descripcion', '')
+            fecha_inicio = request.POST['fecha_inicio']
+            fecha_fin = request.POST.get('fecha_fin', fecha_inicio)  # Si no se proporciona, usa fecha_inicio
+            tipo = request.POST['tipo']
+            confidencial = 'confidencial' in request.POST  # True si el checkbox está marcado
 
             if fecha_inicio > fecha_fin:
                 #Raise 
-                return render(request, 'agregar_evento.html')
+                return render(request, 'agregar_evento.html', {'lista_tipos': lista_tipos})
             else:
                 # Crear el nuevo evento
                 nuevo_evento = EventosAcademicos(
@@ -124,7 +128,7 @@ def agregar_evento(request):
                 return redirect('panel_admin')
 
         # Renderizar la página del formulario
-        return render(request, 'agregar_evento.html')
+        return render(request, 'agregar_evento.html', {'lista_tipos': lista_tipos})
     else:
         return redirect('pag_principal')
 

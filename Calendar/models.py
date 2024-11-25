@@ -1,12 +1,7 @@
 from django.db import models
 
 class EventosAcademicos(models.Model):
-    titulo = models.CharField(max_length=200)
-    descripcion = models.TextField(blank=True)
-    fecha_inicio = models.DateField()
-    fecha_fin = models.DateField()
-
-    lista_tipos = {
+    LISTA_TIPOS = {
         "1": "Inicio de Semestre",
         "2": "Fin de Semestre",
         "3": "Inicio de Inscripción de Asignaturas",
@@ -30,10 +25,12 @@ class EventosAcademicos(models.Model):
         "21": "Suspensión de Actividades Parcial",
     }
 
-    tipo =  models.CharField(max_length=3, choices=lista_tipos)
-
+    titulo = models.CharField(max_length=200)
+    descripcion = models.TextField(blank=True)
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+    tipo = models.CharField(max_length=3, choices=LISTA_TIPOS.items())
     confidencial = models.BooleanField(default=False)
 
     def __str__(self):
         return self.titulo
-
