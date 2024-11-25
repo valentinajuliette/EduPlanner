@@ -6,8 +6,14 @@ import json
 import requests
 
 def calendar_view(request):
-    # Obtener eventos académicos desde la base de datos
+    # Obtener el parámetro GET para filtrar por tipo
+    tipo_seleccionado = request.GET.get('tipo', None)
+
+    # Filtrar eventos académicos
     eventos = EventosAcademicos.objects.filter(confidencial=False)
+    if tipo_seleccionado and tipo_seleccionado != "todos":
+        eventos = eventos.filter(tipo=tipo_seleccionado)
+
     eventos_list = [
         {
             "title": evento.titulo,
@@ -15,7 +21,7 @@ def calendar_view(request):
             "end": evento.fecha_fin.strftime('%Y-%m-%d') if evento.fecha_fin else evento.fecha_inicio.strftime('%Y-%m-%d'),
             "description": evento.descripcion,
             "type": evento.tipo,
-            "confidencial": evento.confidencial,  # Incluye si el evento es confidencial
+            "confidencial": evento.confidencial,
         }
         for evento in eventos
     ]
@@ -34,18 +40,20 @@ def calendar_view(request):
                 "end": feriado.get("fecha"),
                 "description": "Feriado oficial",
                 "type": "Feriado",
-                "confidencial": False,  # Incluye si el evento es confidencial
+                "confidencial": False,
             }
             for feriado in feriados_data
         ]
     except requests.exceptions.RequestException as e:
         feriados_list = []
 
-    # Combinar ambos tipos de eventos
+    # Combinar eventos y feriados
     calendario = eventos_list + feriados_list
 
     # Pasar datos al template
     context = {
-    "eventos": mark_safe(json.dumps(calendario))
-}
+        "eventos": mark_safe(json.dumps(calendario)),
+        "lista_tipos": EventosAcademicos.LISTA_TIPOS,
+        "tipo_seleccionado": tipo_seleccionado,
+    }
     return render(request, 'calendar.html', context)

@@ -6,6 +6,24 @@
 <div class="container text-center">
     <p><br></p>
     <h1>Calendario Académico</h1>
+    <!-- Filtro de tipos de eventos -->
+    <form method="GET" action="{% url 'calendar' %}" class="mb-4">
+        <label for="tipo" class="form-label">Filtrar por Tipo:</label>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <select id="tipo" name="tipo" class="form-select">
+                    <option value="todos" {% if tipo_seleccionado == "todos" or not tipo_seleccionado %}selected{% endif %}>Todos</option>
+                    {% for clave, valor in lista_tipos.items %}
+                        <option value="{{ clave }}" {% if clave == tipo_seleccionado %}selected{% endif %}>{{ valor }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-dark">Filtrar</button>
+            </div>
+        </div>
+    </form>
+
     <div id="calendar"></div> <!-- Este div debe estar vacío -->
 </div>
 
@@ -26,7 +44,7 @@
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             events: function (fetchInfo, successCallback, failureCallback) {
-                fetch('/api/calendario/')
+                fetch('/api/calendario/?tipo={{ tipo_seleccionado|default:"todos" }}')
                     .then(response => response.json())
                     .then(data => {
                         // Filtrar eventos confidenciales si el usuario no tiene autorización

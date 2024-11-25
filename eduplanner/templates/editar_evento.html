@@ -27,11 +27,12 @@
         <div class="mb-3">
             <label for="tipo" class="form-label">Tipo de Evento</label>
             <select class="form-control" id="tipo" name="tipo" required>
-                {% for clave, valor in evento.lista_tipos.items %}
-                    <option value="{{ clave }}" {% if evento.tipo == clave %}selected{% endif%}>{{ valor }}</option>
+                {% for clave, valor in lista_tipos.items %}
+                    <option value="{{ clave }}" {% if clave == evento.tipo %}selected{% endif %}>{{ valor }}</option>
                 {% endfor %}
             </select>
         </div>
+        
         <div class="form-check">
             <input type="checkbox" class="form-check-input" id="confidencial" name="confidencial" 
                 {% if evento.confidencial %}checked{% endif %}>
