@@ -110,8 +110,8 @@ def agregar_evento(request):
             )
             nuevo_evento.save()
 
-            # Redirigir al calendario o página principal
-            return redirect('calendar_view')  # Cambiar a la ruta que desees
+            # Redirigir al panel
+            return redirect('panel_admin')
 
         # Renderizar la página del formulario
         return render(request, 'agregar_evento.html')
